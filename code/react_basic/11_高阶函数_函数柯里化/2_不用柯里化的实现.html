@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>2_不用柯里化的实现</title>
+</head>
+
+<body>
+    <!-- 准备好一个‘容器’ -->
+    <div id="test"></div>
+
+
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+  
+        class Login extends React.Component {
+            render() {
+                return (
+                    <form action="http://www.atguigu.com" onSubmit={this.handleSubmit}>
+                        用户名 <input onChange={event=>this.saveFormData('username',event)} type="text" name="username" />
+                        密码 <input onChange={event=>this.saveFormData('password',event)} type="password" name="password" />
+                        <button>登陆</button>
+                    </form>
+                )
+            }
+            handleSubmit = (event) => {
+                //表单提交是一个默认动作，我们可以用原生 就可以阻止表单提交
+                event.preventDefault();//阻止表单提交
+                const { username, password } = this.state
+                alert(`你输入的用户名是：${username}`)
+            }
+
+            state = {
+                username: '',
+                password: ''    
+            }
+           
+            saveFormData(dataType,event){
+                    this.setState({[dataType]:event.target.value})
+                }
+            
+        }
+        ReactDOM.render(<Login />, document.getElementById("test"))
+    </script>
+</body>
+
+</html>

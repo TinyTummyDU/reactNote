@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>1_事件处理</title>
+  </head>
+  <body>
+    <!-- 准备好一个‘容器’ -->
+    <div id="test"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+
+    <script type="text/babel">
+     class Demo extends React.Component{
+         /*
+            （1）通过onXxx属性指定事件处理函数 注意大小写，例如onClick是一个自定义/合成事件 把原生的onclick包装了一次----为了更好的兼容性
+                a. React使用的是自定义（合成）事件，而不是使用的原生DOM事件 -- 为了更好的兼容性
+                b。React重的事件是通过事件委托方式处理的（委托给组件最外层的元素） -- 为的是高效
+                
+            （2）通过event.target得到发生时间的DOM元素对象  请勿过度使用ref，有点像不要过度使用docu getID，
+                例如第二个input框，发生事件的元素正好是你要操作的元素就可以省略ref
+
+         */
+         myRef = React.createRef()
+        render(){
+            return(
+                <div>
+                    <input ref={this.myRef} type= "text" placeholder = "点击按钮提示数据"/> &nbsp;
+                    <button onClick={this.showData}>点我提示左侧的数据</button>&nbsp;
+                    <input onBlur = {this.showData2} type="text" placeholder ="失去焦点提示数据"/>
+                </div>
+            )
+        }
+          
+        showData2=(event)=>{
+           alert(event.target.value);
+        }
+        showData=()=>{
+           console.log(this.myRef);
+           //有一个current属性在myRef里
+           alert(this.myRef.current.value);
+        }
+
+     }
+
+     ReactDOM.render(<Demo/>,document.getElementById("test"))
+    </script>
+  </body>
+</html>

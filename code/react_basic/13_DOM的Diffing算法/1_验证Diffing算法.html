@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>验证diff算法</title>
+</head>
+<body>
+    <div id="test"></div>
+
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <!-- {/*这tm才是jsx里的注释。先表示你是js代码*/} -->
+    <script type="text/babel">
+
+        class Time extends React.Component{
+            state = {date : new Date()}
+
+            componentDidMount(){
+                setInterval(()=>{
+                    this.setState({
+                        date: new Date()
+                    })
+                },1000)
+            }
+
+            render(){
+                return(
+                    // h1 和 input 不变，diff算出来和之前是一样的，diff的对比最小力度是标签，也就是整个span都变了
+                    // 验证：你在input里面输入点数据，一直会在
+
+                    // 对于第二个input 也会保留的，最小力度是标签，即第二个input标签 diff也发现没有变，所以也会再利用
+                    // 这个很屌的
+                    
+                    <div>
+                        <h1>hello</h1>
+                        <input type = "text"/>
+                        <span>现在是：{this.state.date.toTimeString()} 
+                        <input type = "text"/>    
+                        </span>
+                    </div>
+                )
+            }
+
+        }
+        ReactDOM.render(<Time/>, document.getElementById('test'))
+
+
+
+
+    </script>
+
+</body>
+</html>

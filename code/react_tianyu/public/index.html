@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>react脚手架</title>
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+
+    <!-- //第三方成型的库最好放在单独css文件夹下，在index.html中引入 -->
+    <!-- 如果想看01——04的效果，需要把下面引入bootstrap的这一行注释掉 -->
+    <link rel="stylesheet" href="/css/bootstrap.css">
+
+
+    <!-- 为啥App.jsx里面需要的样式，可以卸载index.html里面，因为SPA -->
+    <!-- 把权限提高，才能盖过bootstrap -->
+    <style>
+        .atguigu{
+            background-color: red !important;
+            color: white !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>2_回调形式的ref</title>
+  </head>
+  <body>
+    <!-- 准备好一个‘容器’ -->
+    <div id="test"></div>
+
+
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+
+<!-- 回调函数，就是你定义的函数，你没有调用（匿名），最后被别人调用 -->
+<!-- 箭头函数左侧只有一个参数，（）可以省略
+剪头函数右侧只有一个参数，{} 可以省略 -->
+
+
+<!-- 写了ref才行，React就会render的时候帮你去调用你的回调函数 -->
+    <script type="text/babel">
+     class Demo extends React.Component{
+        render(){
+            return(
+                <div>
+                    <input ref={currentNode=>this.input1 = currentNode} type= "text" placeholder = "点击按钮提示数据"/> &nbsp;
+                    <button onClick={this.showData}>点我提示左侧的数据</button>&nbsp;
+                    <input ref={(currentNode)=>{this.input2 = currentNode}} onBlur={this.showData2} type="text" placeholder="失去焦点提示数据"/>
+                    </div>
+            )
+        }
+        showData=()=>{
+            const input1 = this.input1
+            alert(input1.value)
+        }
+        showData2=()=>{
+            const {input2} = this
+            alert(input2.value)
+        }
+     }
+
+     ReactDOM.render(<Demo/>,document.getElementById("test"))
+    </script>
+  </body>
+</html>

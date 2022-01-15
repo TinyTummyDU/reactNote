@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>1_非受控组件</title>
+</head>
+
+<body>
+    <!-- 准备好一个‘容器’ -->
+    <div id="test"></div>
+
+
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+
+        class Login extends React.Component {
+
+            //页面中所有的输入类dom是现用现取，就是非受控组件
+
+
+            handleSubmit=(event)=>{
+                //表单提交是一个默认动作，我们可以用原生 就可以阻止表单提交
+                event.preventDefault();//阻止表单提交
+
+                const{username,password} = this
+                // 这里 模版字符串 用连接符 而不是 单引号
+                alert(`你输入的用户名是 ${username.value}`);
+            }
+            render() {
+                return (
+                    <form action="http://www.atguigu.com" onSubmit={this.handleSubmit}>
+                        用户名 <input ref={c=>this.username = c} type="text" name="username"/>
+                        密码 <input ref={c=>this.password = c} type="password" name="password" />
+                        <button>登陆</button>
+                    </form>
+                )
+            }
+        }
+
+        ReactDOM.render(<Login/>, document.getElementById("test"))
+    </script>
+</body>
+
+</html>

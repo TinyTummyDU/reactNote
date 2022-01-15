@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <title>Document</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      class Person {
+        constructor(name, age) {
+          this.name = name;
+          this.age = age;
+        }
+
+        //类中自定义的方法自动开启 局部（见下方demo） 严格模式，导致this指向undifined不是window
+        study() {
+          //study-Person的原型对象上，供实例使用
+          //study中的this是谁? Person的组件实例对象
+          console.log(this);
+        }
+      }
+
+      const p1 = new Person("张三", 19);
+      p1.study(); //通过实例调用study方法
+
+      // ***************************非常重要
+      //   stu1是个栈引用，指向了堆里的new Student，stu1.study这里属于实例调用
+      //   但是x相当于是一个新的引用，也指向了new Student，x()属于直接调用，为什么this是underfine而不是window，因为类中所有你定义的方法，局部都开好了严格模式
+
+      //下一行根本没有调用study，方法是一个特殊的属性
+      const x = p1.study;
+      console.log(x);
+      x(); // undifined
+
+      function demo() {
+        "use strict"; //严格模式可以局部打开
+        console.log(this);
+      }
+      // this();
+    </script>
+  </body>
+</html>

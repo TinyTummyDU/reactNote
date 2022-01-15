@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>1_字符串形式的ref</title>
+  </head>
+  <body>
+    <!-- 准备好一个‘容器’ -->
+    <div id="test"></div>
+
+
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <!-- ref 其实就是在打标识 -->
+<!-- 通过refs拿到的dom节点不是虚拟dom，是真正的dom -->
+<!-- 字符串形式的ref已经不被推荐了，以后可能就更新没有了，其存在一些效率问题 -->
+    <script type="text/babel">
+     class Demo extends React.Component{
+        render(){
+            return(
+                <div>
+                    <input ref="input1" type = "text" placeholder = "点击按钮提示数据"/> &nbsp;
+                    <button ref="button100" onClick={this.showData}>点我提示左侧的数据</button>&nbsp;
+                    <input ref="input2" onBlur={this.showData2} type="text" placeholder="失去焦点提示数据"/>
+                    </div>
+            )
+        }
+        
+        showData=()=>{
+            const {input1} = this.refs
+            alert(input1.value)
+        }
+        showData=()=>{
+            const {input2} = this.refs
+            alert(input2.value)
+        }
+     }
+
+     ReactDOM.render(<Demo/>,document.getElementById("test"))
+    </script>
+  </body>
+</html>

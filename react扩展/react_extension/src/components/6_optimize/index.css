@@ -1,0 +1,12 @@
+.parent{
+    background-color: orange;
+    /* 不给宽度就是横向充满 */
+    padding: 15px;
+}
+
+.child{
+    background-color: gray;
+    margin-top: 30px;
+    /* 不给宽度就是横向充满 */
+    padding: 15px;
+}

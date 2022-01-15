@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <!-- 百分号 是 react 关键字的写法，也可以写相对路径 -->
+    <!-- %PUBLIC_URL%代表public文件夹的路径 -->
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+
+    <!-- 移动端的核心 -->
+    <!-- 用于开启理想适口，用于做移动端网页的适配 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- 用于配置浏览器页签+地址栏的颜色 -->
+    <!-- 但是仅支持安卓手机浏览器 -->
+    <meta name="theme-color" content="#000000" />
+
+    <!-- meta标签是描述网站信息的，用于搜索引擎什么的 -->
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+
+    <!-- 苹果点击icon，作用是苹果ios系统，网站添加到主屏上的图标就是这个！！ -->
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+
+    <!-- manifest.json  应用加壳，我们如果按照手机的布局写一个html页面，往外面加一个android的壳，就能生成.apk,就是android应用，这种方式就可以实现简单的app开发-->
+    <!-- 不做应用加壳，这个manifest.json基本没用，这里面可以加一下规定，麦克风权限啊，手机分辨率对应的图标，百度地图api什么的 -->
+    <!-- 但是本质上 如果客户端开发的话 你想开发Android 就要会java， 你要开发IOS 就要会 OC 或者 SWIFT -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <title>React App</title>
+  </head>
+  <body>
+    <!-- 如果你的浏览器不支持js的允许，就会展示这个标签的内容，不过现在浏览器基本都支持，但是你可以disable js -->
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+
+  </body>
+</html>

@@ -1,0 +1,19 @@
+.parent{
+    background-color: orange;
+    /* 不给宽度就是横向充满 */
+    padding: 15px;
+}
+
+.a{
+    background-color: gray;
+    margin-top: 30px;
+    /* 不给宽度就是横向充满 */
+    padding: 15px;
+}
+
+.b{
+    background-color: skyblue;
+    margin-top: 30px;
+    /* 不给宽度就是横向充满 */
+    padding: 15px;
+}

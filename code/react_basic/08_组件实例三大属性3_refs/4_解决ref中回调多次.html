@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>2_回调形式的ref</title>
+  </head>
+  <body>
+    <!-- 准备好一个‘容器’ -->
+    <div id="test"></div>
+
+
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>  
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+
+<!-- 回调函数，就是你定义的函数，你没有调用（匿名），最后被别人调用 -->
+<!-- 箭头函数左侧只有一个参数，（）可以省略
+剪头函数右侧只有一个参数，{} 可以省略 -->
+
+
+<!-- 写了ref才行，React就会render的时候帮你去调用你的回调函数,这是第一次 -->
+
+    <script type="text/babel">
+     class Demo extends React.Component{
+        render(){
+
+            const {isHot} = this.state;
+            return(
+                <div>
+                    <h2>今天天气很{isHot?'炎热':'凉爽'}</h2>
+                    <input ref={this.saveInput} type="text"/><br/><br/>
+                    <button onClick={this.showInfo}>点我提示输入的数据</button>
+                    <button onClick={this.changeWeather}>点我切换天气</button>
+                </div>
+            )
+        }
+
+        // 无论怎么更新dom，也不会频繁的调用回调函数了，因为我们*******将ref的回调函数定义成class的绑定函数了********
+        saveInput = (c) =>{
+            this.input1 = c;
+            console.log('@',c)
+        }
+
+        state = {isHot: true}
+        showInfo = () =>{
+            const {input1} = this
+            alert(input1.value)
+        }
+
+        //更新的时候会先35行，会先打印null，然后打印currentNode, 也就是调用了两次你的回调函数，第一次是为了清空，这个问题大多数是没事的，无关紧要的
+        //其实这种类绑定函数用的还没有内联形式的多******
+        changeWeather = () =>{
+            const {isHot} = this.state;
+            this.setState({isHot: !isHot})
+        }
+   
+     }
+
+     ReactDOM.render(<Demo/>,document.getElementById("test"))
+    </script>
+  </body>
+</html>

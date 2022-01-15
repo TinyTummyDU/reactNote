@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>3_react新的生命周期</title>
+</head>
+
+<body>
+
+    <div id="test"></div>
+
+    <script type="text/javascript" src="../js/17.0.1/react.development.js"></script>
+    <script type="text/javascript" src="../js/17.0.1/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/17.0.1/babel.min.js"></script>
+    <!-- {/*这tm才是jsx里的注释。先表示你是js代码*/} -->
+    <script type="text/babel">
+
+    /*
+        1.初始化阶段：由ReactDOM.render()触发，--初次渲染
+            1. constructor
+            2. getDerivedStateFromProps
+            3. render
+            4. componentDidMount ==>常用
+                    一般在这个钩子中做一些初始化的事，例如：开启计时器、发送网络请求、订阅消息
+        2.更新阶段L有组件内部this.state或者父组件render触发
+            1. getDerivedStateFromProps
+            2. shouldComponentUpdate
+            3. render  ==>必须的
+            4. getSnapshotBeforeUpdate
+            5. componentDidUpdate
+        3.卸载组件：由ReactDOM.unmountComponentAtNode触发
+            1. componentWillUnMount ==》常用
+                    一般在这个钩子中做一些收尾的事情，例如：关闭定时器，取消订阅消息
+
+                    
+                    常用的还是这三个 ==》
+    */
+
+
+
+        class Count extends React.Component {
+
+            // 构造器
+            constructor(props) {
+                console.log('Count --- constructor');
+                super(props)
+                this.state = { count: 0 }
+            }
+
+            add = () => {
+                const { count } = this.state
+                this.setState({ count: count + 1 })
+            }
+
+
+            //得到一个 派生 的状态对象，从props得到的！！！
+            //此用法，限制了，你的state的值任何情况下都取决于props，此情景非常罕见: 为什么呢，因为这个钩子横跨了整个新声明周期，你update的时候也会调用这个钩子
+            //但是 派生状态 会导致代码冗余，并且使你的组件难以维护
+            //这个方法其实也能收到第二个参数，state
+        
+            static getDerivedStateFromProps(props,state){
+                console.log('getDerivedStateFromProps',props,state);
+                return null;
+                //一旦返回一个状态对象，就把状态更改了，你怎么加一也不行了
+                // return props
+            }
+
+
+            //getSnapshotBeforeUpdate() 在最近一次渲染输出（提交到 DOM 节点）之前调用。它使得组件能在发生更改之前从 DOM 中捕获一些信息（例如，滚动位置）。
+            // 此生命周期方法的任何返回值将作为参数传递给 componentDidUpdate()。
+            // 此用法并不常见，但它可能出现在 UI 处理中，如需要以特殊方式处理滚动位置的聊天线程等。
+            // 应返回 snapshot 的值（或 null）。
+            getSnapshotBeforeUpdate(){
+                console.log("getSnapshotBeforeUpdate");
+                // return null;
+                //返回snapshot value
+                return "atGuiGu"
+            }
+
+            //组件挂载完毕的钩子
+            componentDidMount() {
+                console.log('Count --- componentDidMount');
+            }
+
+            death = () => {
+                ReactDOM.unmountComponentAtNode(document.getElementById("test"))
+            }
+
+            //强制更新按钮的回调
+            force = () => {
+                this.forceUpdate()
+            }
+
+            componentWillUnmount() {
+                console.log('Count --- componentWillUnmount')
+            }
+
+
+            //控制组件更新的阀门
+            //每次更新的时候都会问问这个钩子，！！！只要写这个钩子，必须就要写返回值，不写底层就会给你补一个（默认返回为true）
+            shouldComponentUpdate() {
+                console.log('Count --- shouldComponentUpdate');
+                return true;
+            }
+
+
+   
+            //组件更新完毕调的钩子
+            componentDidUpdate(preProps,preState,snapshotValue) {
+                console.log('Count --- componentDidUpdate',preProps,preState,snapshotValue);
+                console.log('now ',this.state)
+            }
+
+
+            render() {
+                console.log('Count --- render');
+                const { count } = this.state
+                return (
+                    <div>
+                        <h2> 当前求和为{count}</h2>
+                        <button onClick={this.add}>点我加1</button>
+                        <button onClick={this.death}>卸载组件</button>
+                        <button onClick={this.force}>不更改任何状态中的数据，强制更改一下</button>
+
+                    </div>
+                )
+            }
+
+
+        }
+
+     
+        ReactDOM.render(<Count count={199}/>, document.getElementById("test"))
+
+    </script>
+</body>
+
+</html>

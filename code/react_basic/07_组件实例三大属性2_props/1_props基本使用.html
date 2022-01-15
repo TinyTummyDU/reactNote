@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>props</title>
+  </head>
+  <body>
+    <!-- 准备好一个‘容器’ -->
+    <div id="test"></div>
+    <div id="test1"></div>
+
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+      class Person extends React.Component {
+        render() {
+          //   console.log(this);
+          //结构赋值
+          const { name, age, sex } = this.props;
+          return (
+            <ul>
+              <li>{name}</li>
+              <li>{age + 1}</li>
+              <li>{sex}</li>
+            </ul>
+          );
+        }
+      }
+
+      //服务器传的数据
+      const p = { name: "老刘", age: 18, sex: "女" };
+      //   ReactDOM.render(
+      //     <Person name={p.name} age={p.age} sex={p.sex} />,
+      //     document.getElementById("test")
+      //   );
+
+      //批量传递标签属性，《=》  传递props
+      //原生的js ...展开运算符是不能展开对象的,下面的{}只是代表里面是js表达式，所以你真真的代码只有...p
+      //为什么这里还是可以用呢，因为babel和react加在一起可以实现展开对象，但是不能随意的使用，下面的console.log就不行，仅仅适用于标签属性的传递
+      ReactDOM.render(<Person {...p} />, document.getElementById("test"));
+
+      //下面19必须加引号，但是就变成了字符串，那我们怎么能获得number的数据类型的19，那就得用js表达式，只有js才有数据类型
+      ReactDOM.render(
+        <Person name="jerry" age={19} sex="男" />,
+        document.getElementById("test1")
+      );
+
+      //但是如果别的开发人员用你组件，你就不能用上面的写法，人家又没去费力的看是19还是“19”，所以我们要对props做一个类型的限制。看下一节
+      //进行必要性限制，添加默认值
+      ReactDOM.render(
+        <Person name="jerry" age={19} sex="男" />,
+        document.getElementById("test1")
+      );
+
+      //   console.log(...p)
+    </script>
+  </body>
+</html>

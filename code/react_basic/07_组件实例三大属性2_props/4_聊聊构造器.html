@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>props</title>
+  </head>
+  <body>
+    <!-- 准备好一个‘容器’ -->
+    <div id="test"></div>
+    <div id="test1"></div>
+
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <!-- 引入prop-types 用于对组件标签属性进行限制，全局多了一个对象 PropTypes-->
+    <script type="text/javascript" src="../js/prop-types.js"></script>
+
+    <script type="text/babel">
+      class Person extends React.Component {
+        //类中的构造器完全可以省略，但是写就要按规矩来写
+        //构造器是否接收props，是否传递给super，取决于是否希望在构造器中通过this访问props
+        //开发的时候基本上不写构造器
+        constructor(props) {
+          super(props);
+          console.log("constructor", this.props); //如果前两行的props缺一或缺二，this.props就是undifined，如果真的想用的话其实直接props也可以
+          //所以constructor能省略 就省略
+        }
+
+        //对标签属性进行类型、必要性的限制，不用static React会warning--不是静态的了就
+        static propTypes = {
+          name: PropTypes.string.isRequired, //15版本 一直是从React对象去取，但是React越来越大,就不在React.PropTypes里了，16版本 在prop-types.js新加的PropTypes全局对象里
+          sex: PropTypes.string,
+          age: PropTypes.number,
+        };
+        //指定默认标签属性值
+        static defaultProps = {
+          sex: "男",
+          age: 1,
+        };
+        render() {
+          const { name, age, sex } = this.props;
+          return (
+            <ul>
+              <li>{name}</li>
+              <li>{age + 1}</li>
+              <li>{sex}</li>
+            </ul>
+          );
+        }
+      }
+
+
+      //服务器传的数据
+      const p = { name: "张三", sex: "女" };
+      ReactDOM.render(<Person {...p} />, document.getElementById("test"));
+    </script>
+  </body>
+</html>

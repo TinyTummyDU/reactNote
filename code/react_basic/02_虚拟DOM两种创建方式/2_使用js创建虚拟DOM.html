@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>2_使用js创建虚拟DOM</title>
+  </head>
+  <body>
+    <!-- 准备好一个“容器” -->
+    <div id="test"></div>
+    <div id="test1"></div>
+
+    <!-- 引入核心库，这个和下面的引入要有顺序的-->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react-dom 用于支持react操作DOM -->
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+
+    <script type="text/javascript">
+      //1.创建虚拟DOM
+      const VDOM =
+        // ReactDOM.creatElement(标签名，标签属性，标签内容)
+        React.createElement(
+          "h1",
+          { id: "title" },
+          "Hello React"
+        ); /* 此处一定不要写引号，因为不是字符串 */
+      const VDOM1 = React.createElement(
+        "h1",
+        { id: "title" },
+        React.createElement("span", {}, "hello react") //无限套娃
+      );
+      ReactDOM.render(VDOM, document.getElementById("test"));
+      ReactDOM.render(VDOM1, document.getElementById("test1"));
+    </script>
+  </body>
+</html>

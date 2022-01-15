@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>1_高阶函数_函数柯里化</title>
+</head>
+
+<body>
+    <!-- 准备好一个‘容器’ -->
+    <div id="test"></div>
+
+
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+        //#region
+        /*
+            高阶函数：如果一个函数符合下面2个规范中的任何一个，那该函数就是高阶函数。
+                1. 若A函数，接受的参数是一个函数，那么A就可以称之为高阶函数
+                2. 若A函数，调用其的返回值依然是一个函数，那么A就可以称之为高阶函数。
+                常见的高阶函数有：Promise,setTimeout,arr.map等等
+
+
+            函数的柯里化：通过函数调用继续返回函数的方式，实现多次接受参数最后统一处理的函数编码形式。
+             function sum1(a){
+                return(b)=>{
+                    return (c)=>{
+                        return a+b+c;
+                    }
+                }
+            }
+        */
+        //#endregion
+
+
+
+        class Login extends React.Component {
+            render() {
+                return (
+                    <form action="http://www.atguigu.com" onSubmit={this.handleSubmit}>
+                        用户名 <input onChange={this.saveFormData('username')} type="text" name="username" />
+                        密码 <input onChange={this.saveFormData('password')} type="password" name="password" />
+                        <button>登陆</button>
+                    </form>
+                )
+            }
+            handleSubmit = (event) => {
+                //表单提交是一个默认动作，我们可以用原生 就可以阻止表单提交
+                event.preventDefault();//阻止表单提交
+                const { username, password } = this.state
+                alert(`你输入的用户名是：${username}`)
+            }
+            //最好是初始化一下状态
+            state = {
+                username: '',
+                password: ''    
+            }
+           
+            //saveFormData是高阶函数
+            //这样写一个闭包，就可以让onChange指向的回调 不是 undifined 而是 return（）.......
+            saveFormData = (dataType) =>{
+                //return 部分才是 react帮你在onchange时候调的东西
+                return (event)=>{
+                    console.log(dataType);
+                    this.setState({[dataType]:event.target.value})
+                    // 对象里默认是字符串滴，下面两行没有区别，看复习5
+                    // this.setState({dataType:event.target.value})
+                    // this.setState({'dataType':event.target.value})
+                }
+            }
+        }
+        ReactDOM.render(<Login />, document.getElementById("test"))
+    </script>
+</body>
+
+</html>

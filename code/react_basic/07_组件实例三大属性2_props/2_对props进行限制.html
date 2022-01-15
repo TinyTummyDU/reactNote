@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>props</title>
+  </head>
+  <body>
+    <!-- 准备好一个‘容器’ -->
+    <div id="test"></div>
+    <div id="test1"></div>
+
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <!-- 引入prop-types 用于对组件标签属性进行限制，全局多了一个对象 PropTypes-->
+    <script type="text/javascript" src="../js/prop-types.js"></script>
+
+    <script type="text/babel">
+      class Person extends React.Component {
+        render() {
+          //   console.log(this);
+          //结构赋值
+          //props是只读的，单项数据流
+          const { name, age, sex } = this.props;
+          // this.props.name = 'jack' 此行代码会报错，因为props是只读的
+          return (
+            <ul>
+              <li>{name}</li>
+              <li>{age + 1}</li>
+              <li>{sex}</li>
+            </ul>
+          );
+        }
+      }
+      //对标签属性进行类型、必要性的限制，react每次new一个Person就回去找propTypes属性,没有就算了。propTypes和React里的内置的PropTypes做区分
+      Person.propTypes = {
+        name: PropTypes.string.isRequired, //15版本 一直是从React对象去取，但是React越来越大,就不在React.PropTypes里了，16版本 在prop-types.js新加的PropTypes全局对象里
+        sex: PropTypes.string,
+        age: PropTypes.number,
+        //function是js的关键字，不能用的，所以这里要写func
+        speak: PropTypes.func, //限制speak为函数
+      };
+      //指定默认标签属性值
+      Person.defaultProps = {
+        sex: "男",
+        age: 1,
+      };
+
+      function speak() {
+        console.log("我说话了");
+      }
+
+      //服务器传的数据
+      const p = { name: "张三", sex: "女", speak: speak };
+      ReactDOM.render(<Person {...p} />, document.getElementById("test"));
+
+   
+      ReactDOM.render(<Person name="jerry" age={19} sex="男"  />, document.getElementById("test1"));
+    </script>
+  </body>
+</html>

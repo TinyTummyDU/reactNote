@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>1_引出生命周期</title>
+</head>
+<body>
+
+    <div id="test"></div>
+
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <!-- {/*这tm才是jsx里的注释。先表示你是js代码*/} -->
+    <script type="text/babel">
+
+        //组件的一生
+        //什么时候，帮你调该调的函数
+        //这些都是属于 生命周期回调函数 《=》生命周期钩子函数 《=》 生命周期函数 《=》 生命周期钩子
+
+
+        class Life extends React.Component{
+            state = {opacity:1}
+            death = () =>{
+                clearInterval(this.timer)
+                //卸载组件,方法：卸载组件在哪个节点里
+                ReactDOM.unmountComponentAtNode(document.getElementById("test"))
+            }
+
+            //是render的兄弟，以后是通过Life的实例去调用的，组件挂载完毕的时候哦调用，只调用一次
+            componentDidMount(){
+                this.timer = setInterval(()=>{
+                    //获取愿状态    
+                    let {opacity} = this.state
+                    //减少0.1
+                    opacity -= 0.1
+                    if(opacity <= 0) opacity = 1
+                    //设置新的透明度
+                    this.setState({opacity})
+                    //200ms变一次
+                },200);
+            }
+
+            //组件将要卸载
+            //另一种clearInterval
+            componentWillUnmount(){
+                // clearInterval(this.timer)
+            }
+            
+            //render调用的时机是两个 1:初始化渲染，2：状态更新之后
+            render(){
+                return(
+                    <div>
+                        <h2 style={{opacity:this.state.opacity}}> React学不会怎么办? </h2>
+                        <button onClick={this.death}>不活了</button>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<Life/>, document.getElementById("test"))
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      class Student {
+        constructor(name, score) {
+          this.name = name;
+          this.score = score;
+        }
+        introduce() {
+          console.log(`我是${this.name}，我考了${this.score}`);
+        }
+      }
+
+      const s1 = new Student("张三", 99);
+      s1.introduce();
+      console.log(s1);
+      console.log(s1.hasOwnProperty("introduce"));
+      console.log(s1.hasOwnProperty("name"));
+    </script>
+  </body>
+</html>

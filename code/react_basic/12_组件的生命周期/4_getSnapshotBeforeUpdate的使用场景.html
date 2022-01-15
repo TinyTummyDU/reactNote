@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>4_getSnapshotBeforeUpdate的使用场景</title>
+    <style>
+      .list {
+        width: 200px;
+        height: 150px;
+        background-color: skyblue;
+        /* 不让溢出的话，加一个overflow */
+        overflow: auto;
+      }
+      .news {
+        height: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="test"></div>
+
+    <script
+      type="text/javascript"
+      src="../js/17.0.1/react.development.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../js/17.0.1/react-dom.development.js"
+    ></script>
+    <script type="text/javascript" src="../js/17.0.1/babel.min.js"></script>
+    <!-- {/*这tm才是jsx里的注释。先表示你是js代码*/} -->
+    <script type="text/babel">
+      class NewsList extends React.Component {
+        state = { newsArr: [] };
+
+        componentDidMount() {
+          setInterval(() => {
+            //获取原本的状态
+            const { newsArr } = this.state;
+            //模拟一条新闻
+            const news = '新闻' + (newsArr.length + 1);
+            //更新状态 解构合并，news在最新的一条
+            this.setState({ newsArr: [news, ...newsArr]})
+          }, 1000);
+        }
+
+        //调用该钩子的时候，新的新闻还没有上去呢
+        getSnapshotBeforeUpdate(){
+            return this.refs.list.scrollHeight;
+        }
+
+        //新的新闻已经出现了，持续往下窜，就可以实现 滚轮锁定
+        componentDidUpdate(preProps,preState,height){
+            this.refs.list.scrollTop += this.refs.list.scrollHeight - height
+        }
+
+        render() {
+          return (
+            <div className="list" ref="list">
+            {
+                this.state.newsArr.map((n,index) => {
+                return <div key={index} className="news">{n}</div>;
+              })
+            }
+            </div>
+          )
+        }
+      }
+      ReactDOM.render(<NewsList/>, document.getElementById("test"));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>state</title>
+  </head>
+  <body>
+    <!-- 准备好一个‘容器’ -->
+    <div id="test"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+      //1.创建组件
+      class Weather extends React.Component {
+        //一直点，凉爽和炎热一直在变，构造器执行了几次，1次，为什么呢：因为只创建了一个实例
+        constructor(props) {
+          super(props); //this的操作必须放在super后面，其他可以放在前面
+
+          //其实 构造器的唯二用法 就是下面两行！！！
+          
+          //初始化状态
+          this.state = { isHot: false, wind: "微风" };
+          //构造器里的this就是实例对象
+          //先分析右边，this.changeWeather是原型上的函数，bind可以做两件事，（1）返回一个新的函数（2）改变该函数里的this的指向
+          //左边，this当前实力对象新定义一个方法叫changeWeather
+          //以后onclick的时候当然是指向这个新的changeWeather，因为实力对象里面就有，不用去找原型里面的
+          this.changeWeather = this.changeWeather.bind(this);
+        }
+
+        //为什么render里的this也是当前实力对象，因为ReactDOM.render('Weather /'...),其实会创建一个w1实力对象，然后调用render方法
+        //render调用了几次--1+n次，1是初始化的那次，n是状态更改的次数
+        render() {
+          //读取状态 const {isHot} = this.state 等于 const isHot = this.state.isHot
+          const { isHot, wind } = this.state;
+          //   const isHot1 = this.state.isHot;
+          console.log(isHot);
+          //   console.log(isHot1);
+
+          // jsx里, 原生的onclick,onblur这些都改为了onClick驼峰
+          // demo()代表立即执行，然后返回值赋值给了 onClick , 所以只是指定一下就行 demo
+          return (
+            <h1 onClick={this.changeWeather}>
+              今天天气很{isHot ? "炎热" : "凉爽"},{wind}
+            </h1>
+          );
+        }
+        // 绑定事件3
+        //changeWeather-Weather的原型对象上，供实例使用
+        //changeWeather中的this是谁？Weather的组件实例对象 《=》Weather的实例对象
+        //changeWeather点几次，调几次
+        changeWeather() {
+          //为什么constructor和render里面的this就是组件实力对象，而我changeWeather里面的this就是undefind呢
+          //由于changeWeather是作为onCLick的回调，所以不是通过实例调用，是直接调用的
+          //类中的方法默认开启了局部模式，所以changeWeather中的this为undefined
+          //   console.log(this);
+
+          //获取原来的isHot值
+          const isHot = this.state.isHot;
+          //严重注意：react状态里的属性不可以直接更改，要借助一个内置的API去更改,MyComponent里的方法，这里和vue有点区别，vue响应式
+          //this.state.isHot = !isHot; //这是错误的写法
+
+          this.setState({ isHot: !isHot });
+          //setState是一个合并的动作，因为 微风 还在，不是替换，是一种合并
+          //每次调用setState，都会再调用render重新返回虚拟DOM然后render
+          console.log(this);
+        }
+      }
+      // 2.渲染组件到页面
+      ReactDOM.render(<Weather />, document.getElementById("test"));
+
+      //   changeWeather() {
+      //       //   console.log("标题被点击了");
+      //     //this不能用，因为babel转的时候会开启严格模式，this本来是window然后就会转为undefined
+      //     //所以在这种自定义的方法里面 是根本碰不到组件实例对象的
+      //   }
+
+      //    绑定事件1，尽量别用document.get
+      //   const title = document.getElementById("title");
+      //   title.addEventListener("click", () => {
+      //     console.log("标题被点击了");
+      //   });
+
+      //   绑定事件2，尽量别用document.get
+      //   const title = document.getElementById("title");
+      //   title.onclick = () => {
+      //     //回调
+      //     console.log("标题被点击了");
+      //   };
+    </script>
+  </body>
+</html>

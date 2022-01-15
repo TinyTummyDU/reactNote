@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>props</title>
+  </head>
+  <body>
+    <!-- 准备好一个‘容器’ -->
+    <div id="test"></div>
+    <div id="test1"></div>
+
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <!-- 引入prop-types 用于对组件标签属性进行限制，全局多了一个对象 PropTypes-->
+    <script type="text/javascript" src="../js/prop-types.js"></script>
+
+    <script type="text/babel">
+      // 函数式组件不能玩state不能玩ref，只能玩props，因为它可以接收参数，虽然说props也是组件 实例 三大属性之一
+      function Person(props) {
+        const { name, age, sex } = props;
+        return (
+          <ul>
+            <li>{name}</li>
+            <li>{age}</li>
+            <li>{sex}</li>
+          </ul>
+        );
+
+        //函数是组建里没有static render这些
+      }
+      //对props进行规范，那就在外面写就行，添加propTypes
+
+   
+      Person.propTypes = {
+        name: PropTypes.string.isRequired, 
+        sex: PropTypes.string,
+        age: PropTypes.number,
+      };
+      Person.defaultProps = {
+        sex: "男",
+        age: 1,
+      };
+      console.log(Person);
+      //服务器传的数据
+      const p = { name: "张三", sex: "女" };
+      ReactDOM.render(<Person {...p} />, document.getElementById("test"));
+    </script>
+  </body>
+</html>

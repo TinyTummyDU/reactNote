@@ -1,0 +1,6 @@
+.title{
+    background-color: orange;
+}
+
+/* 为了防止 css全局污染，就是这种css和js组件全叫index的话。然后css里面还有一样名字的类title，就会在App.js产生样式覆盖 */
+/* 这时候就可以使用 css 模块化 */

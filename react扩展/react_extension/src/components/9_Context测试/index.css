@@ -1,0 +1,12 @@
+.parent{
+    width:500px;
+    background-color: orange;
+    padding: 15px;
+}
+
+.son{
+    width:100%;
+    background-color: skyblue;
+    padding: 15px;
+
+}

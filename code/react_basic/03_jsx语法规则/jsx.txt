@@ -1,0 +1,13 @@
+xml早期用于存储和传输数据
+
+<student>
+<name>Tom</name>
+<age>19</age>
+</student>
+
+后来我们用json存，因为我们只要Tom和19
+
+"{"name":"tom","age":19}"
+js内置有json对象，有两个方法
+parse
+stringify

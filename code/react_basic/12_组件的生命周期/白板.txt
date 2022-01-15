@@ -1,0 +1,13 @@
+挂载 mount
+
+卸载 unmount
+
+
+
+人的生命周期
+
+    将要出生=》 起名字
+    出生了=》 婴儿用品 componentDidMount
+
+
+    病危了=》componentWillUnmount

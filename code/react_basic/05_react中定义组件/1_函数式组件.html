@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>1_函数式组件</title>
+  </head>
+  <body>
+    <div id="test"></div>
+
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+      //1.创建函数式组件，想都不要想 要大写开头
+      function MyComponent() {
+        console.log(this);  
+        // 此处的this是underfine 因为babel编译jsx后会开启ES5严格模式 strict，会禁止自定义函数里的this指向window
+
+        //必须有返回值
+        return <h2>我是用函数定义的组件(适用于 简单组件 的定义)</h2>;
+      }
+      //2.渲染组件到页面 Functions are not valid as a React child.必须是标签形式，ReactDOM才会去渲染该组件，标签必须闭合
+      //这里相当于是 React帮你去调用Mycomponent函数，然后返回了东西
+      ReactDOM.render(<MyComponent />, document.getElementById("test"));
+
+      /* 
+      执行了ReactDom.render(<MyComponent/>)之后发生了什么
+      1.React解析组件标签，找到了MyComponent组件
+      2.发现组件是使用函数定义的，随后调用该函数，将返回的虚拟DOM转为真实DOM，随后呈现在页面上
+       */
+    </script>
+  </body>
+</html>

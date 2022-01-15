@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>state</title>
+  </head>
+  <body>
+    <!-- 准备好一个‘容器’ -->
+    <div id="test"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+      class Weather extends React.Component {
+
+        //给Weather的实例对象追加一个属性，因为这是死的值，就可以不写在构造器里面
+        state = { isHot: false, wind: "微风" };
+        render() {
+          const { isHot, wind } = this.state;
+          return (
+            <h1 onClick={this.changeWeather}>
+              今天天气很{isHot ? "炎热" : "凉爽"},{wind}
+            </h1>
+          );
+        }
+
+        //changeWeather在Weather的原型上
+        //赋值语句，这样写的话，changeWeather就放在了实力对象上，不在原型上了
+        //箭头函数没有this，但是如果写了this，它会去找外侧，就找到了111111这个部分 (箭头函数永远指向创建时的外层作用域，上下文)
+        //111111 这里this指向的就是当前实力对象
+        //自定义方法--要用赋值语句的形式+箭头函数
+        changeWeather = () => {
+          const isHot = this.state.isHot;
+          this.setState({ isHot: !isHot });
+        };
+      }
+      ReactDOM.render(<Weather />, document.getElementById("test"));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>state</title>
+</head>
+
+<body>
+    <!-- 准备好一个‘容器’ -->
+    <div id="test"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+        //1.创建组件
+        class Weather extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = { isHot: false, wind: "微风" };
+                this.changeWeather = this.changeWeather.bind(this);//bind的两个作用1:生成新的函数2:改变该新函数中的this的指向
+            }
+
+            render() {
+                const { isHot, wind } = this.state;
+                // console.log(isHot);
+                return (
+                    // 在render里面如果想碰changeWeather的话，必须 this 因为只有this能碰到changeWeather
+                    <h1 onClick={this.changeWeather}>
+                        今天天气很{isHot ? "炎热" : "凉爽"},{wind}
+                    </h1>
+                );
+            }
+
+            changeWeather() {
+                //为什么这里this不像 constructor和render一样，是实例对象，看复习3
+                const isHot = this.state.isHot;
+                this.setState({ isHot: !isHot }); //这样才能是响应式，state里面的数据不可以直接更改，必须用setState，该方法在React.Component里面的原型对象里
+                //且该方法是一种更新而不是替换，因为”微风”一直在
+                //也恰恰是setState是人家写好的，所以我们叫state是三大属性之一，而不是我们随便写一个peiqi的属性
+                console.log(this);
+            }
+        }
+        // 2.渲染组件到页面
+        ReactDOM.render(<Weather />, document.getElementById("test"));
+
+    </script>
+</body>
+
+</html>
